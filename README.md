@@ -92,10 +92,6 @@ To append data from an Excel file, use the "Upload Excel File to Append Data" se
 
 If you find any issues or have suggestions for improvements, feel free to raise an issue or submit a pull request. We welcome contributions from the community to enhance the functionality and usability of the Opportunity Tracker app.
 
-## License
-
-This project is licensed under the [MIT License](LICENSE). Feel free to use, modify, and distribute the code following the terms of the license.
-
 ## Credits
 
 The Opportunity Tracker app was developed by https://github.com/RichieGarafola-IberiaAdvisory.
