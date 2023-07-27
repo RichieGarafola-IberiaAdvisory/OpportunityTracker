@@ -48,14 +48,6 @@ With the Opportunity Tracker, you can efficiently organize and monitor a wide ra
 
 - **Response Status:** The status of the response to the solicitation, which can be "In progress" or "Submitted." If "Submitted," there are additional fields for "Date Submitted" and "Submitted to" (a free-text field to specify who/where it was submitted).
 
-- **Teaming Partners:** Information about the teaming partners involved in the solicitation, including "Confirmed Partners" (linked to separate pages for more details) and a free-text field for "Potential Partners."
-
-- **Teaming Partner Page:** Detailed information about each teaming partner, including:
-    - **POCs (Points of Contact):** Names of individuals from the partner organization, with details about their relationship type (Capture, Technical, Leadership), and their email addresses & phone numbers.
-    - **Worked with Before?:** A checkbox or field to indicate if the teaming partner has been worked with before.
-    - **NDA Status:** Status of the Non-Disclosure Agreement (NDA) with options for "Issued," "Partially Executed," or "Fully Executed." If "Issued," there are additional fields for "Date Issued" and "Sent to." If "Partially Executed" or "Fully Executed," there are fields for "Date PE/FE" and "Received from/Sent to."
-    - **Teaming Agreement Status:** Status of the Teaming Agreement with options for "Issued," "Partially Executed," or "Fully Executed." If "Issued," there are additional fields for "Date Issued" and "Sent to." If "Partially Executed" or "Fully Executed," there are fields for "Date PE/FE" and "Received from/Sent to."
-
 ---
 
 *These parameters are designed to capture essential information about solicitation opportunities and the teaming partners involved, facilitating efficient management and tracking of the process.*
