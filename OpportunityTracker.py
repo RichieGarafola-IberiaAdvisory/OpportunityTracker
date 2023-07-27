@@ -5,8 +5,8 @@ import pandas as pd
 
 # Set the page configuration for the Streamlit application, including the title and icon.
 st.set_page_config(
-    # page_title="Employee Management Database",
-    page_title="Local CSV Version",
+    # page_title="Iberia Advisory Opportunity Tracker",
+    page_title="Opportunity Tracker",
     page_icon="📊",
     layout="wide"
 )
