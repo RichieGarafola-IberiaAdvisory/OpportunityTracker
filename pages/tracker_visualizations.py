@@ -167,11 +167,11 @@ with col2:
 ################################
 
     # Convert the "Size" column to numeric
-    df["Size"] = pd.to_numeric(df["Size"], errors="coerce")
+    df["Solicitation Value"] = pd.to_numeric(df["Solicitation Value"], errors="coerce")
 
     # Create a histogram
     fig, ax = plt.subplots(figsize=(8, 6))
-    ax.hist(df["Size"].dropna(), bins=20, edgecolor="black")
+    ax.hist(df["Solicitation Value"].dropna(), bins=20, edgecolor="black")
     ax.set_xlabel("Opportunity Size")
     ax.set_ylabel("Count")
     ax.set_title("Opportunity Size Distribution")
