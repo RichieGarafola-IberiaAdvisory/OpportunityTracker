@@ -98,7 +98,7 @@ if is_logged_in:
     st.session_state.data = st.session_state.get("data", [])
     
     # Add title to the streamlit app
-    # st.title("Opportunity Tracker")
+    st.title("Opportunity Tracker")
     
     # Create the Opportunity Form using Streamlit's 'with form' context manager
     with st.form("Opportunity Form"):
@@ -197,7 +197,7 @@ if is_logged_in:
         st.success("DataFrame saved to 'opportunity_tracker.xlsx'")
     
     # Upload and append data from Excel
-    uploaded_file = st.file_uploader("Upload Excel File to Append Data", type=["xlsx"])
+    uploaded_file = st.sidebar.file_uploader("Upload Excel File to Append Data", type=["xlsx"])
     
     if uploaded_file is not None:
         try:
@@ -217,16 +217,21 @@ if is_logged_in:
         # Convert "Release Date" and "Due Date" columns to string format
         df["Release Date"] = df["Release Date"].astype(str)
         df["Due Date"] = df["Due Date"].astype(str)
+        
+        # Convert the "Set Aside" column to a string representation
+        df["Set Aside"] = df["Set Aside"].apply(lambda x: ", ".join(x) if isinstance(x, list) else x)
+        df["Teaming Partners (Confirmed)"] = df["Teaming Partners (Confirmed)"].apply(lambda x: ", ".join(x) if isinstance(x, list) else x)
+    
     
         # Filter and Sort options
-        filter_by = st.selectbox("Filter By", ["None", "Buying Organization", "Release Date", "Due Date"])
-        sort_by = st.selectbox("Sort By", ["None", "Buying Organization", "Release Date", "Due Date"])
+        filter_by = st.sidebar.selectbox("Filter By", ["None", "Buying Organization", "Release Date", "Due Date"])
+        sort_by = st.sidebar.selectbox("Sort By", ["None", "Buying Organization", "Release Date", "Due Date"])
     
         # Data Filtering
         df_filtered = df.copy()
     
         if filter_by == "Buying Organization":
-            buying_org_filter = st.text_input("Enter Buying Organization")
+            buying_org_filter = st.sidebar.text_input("Enter Buying Organization")
             if buying_org_filter:
                 df_filtered = df_filtered[df_filtered["Buying Organization"].str.contains(buying_org_filter, case=False)]
     
