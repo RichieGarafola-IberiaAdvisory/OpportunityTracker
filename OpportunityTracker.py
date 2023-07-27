@@ -92,7 +92,7 @@ if is_logged_in:
     st.title("Opportunity Tracker")
     st.subheader("Dummy Data")
 
-
+    
     # Define the data structure as a list of dictionaries
     # Initialize the 'data' session state as an empty list
     st.session_state.data = st.session_state.get("data", [])
@@ -125,9 +125,11 @@ if is_logged_in:
         vehicle = st.selectbox("Vehicle", ["GSA MAS", "OASIS", "PACTS III", "Other"])
         rfp_type = st.selectbox("Type", ["RFP", "RFI", "Sources Sought"])
     
-        # Multiselect box for Set Aside, and a text input for Size
+        # Multiselect box for Set Aside, and a text input for Solicitation Value
+        solicitation_value = st.text_input("Solicitation Value ($)")
+        solicitation_duration = st.text_input("Solicitation Duration")
         set_aside = st.multiselect("Set Aside", ["SDVOSB", "HUBZone", "8(a)", "WOSB", "VOSB"])
-        size = st.text_input("Size")
+        
         
         # Select box for Iberia Role (Prime or Sub)
         iberia_role = st.selectbox("Iberia Role", ["Prime", "Sub"])
@@ -159,8 +161,9 @@ if is_logged_in:
                 "Due Date": due_date,
                 "Vehicle": vehicle,
                 "Type": rfp_type,
+                "Solicitation Value": solicitation_value,
+                "Solicitation Duration": solicitation_duration,
                 "Set Aside": set_aside,
-                "Size": size,
                 "Iberia Role": iberia_role,
                 "Teaming Partners (Confirmed)": confirmed_partners,
                 "Teaming Partners (Potential)": potential_partners,
@@ -182,7 +185,8 @@ if is_logged_in:
         vehicle = "GSA MAS"
         rfp_type = "RFP"
         set_aside = []
-        size = ""
+        solicitation_value = ""
+        solicitation_value = ""
         iberia_role = "Prime"
         confirmed_partners = []
         potential_partners = ""
