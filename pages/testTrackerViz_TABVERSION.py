@@ -8,13 +8,14 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from wordcloud import WordCloud
 
+
 # Initialize the 'data' session state as an empty list if it doesn't exist
 if "data" not in st.session_state:
     st.session_state.data = []
 
-# Initialize the 'df' session state as an empty DataFrame if it doesn't exist
-if "df" not in st.session_state:
-    st.session_state.df = pd.DataFrame()
+# # Initialize the 'df' session state as an empty DataFrame if it doesn't exist
+# if "df" not in st.session_state:
+#     st.session_state.df = pd.DataFrame()
     
 # Save the DataFrame to Excel
 def save_to_excel():
@@ -74,9 +75,11 @@ def create_count_plot(data, x_label, y_label, title, rotation=45):
         ax.tick_params(axis="x", labelsize=12)
         ax.set_ylabel(y_label, fontsize=12)
         ax.tick_params(axis="y", labelsize=12)
-        st.pyplot(fig)
+        # st.pyplot(fig)
+        return fig, ax
     except Exception as e:
         st.error(f"Error occurred while creating the count plot: {e}")
+        return None, None
 
 # Define a function for creating histograms
 def create_histogram(data, x_label, y_label, title):
@@ -130,6 +133,8 @@ def create_stacked_bar_chart(data, x_column, y_column, title, x_label, y_label):
         return fig, ax
     except Exception as e:
         st.error(f"Error occurred while creating the Stacked Bar Chart: {e}")
+        return None, None
+
         
 # Define a function for creating a histogram
 def create_histogram(data, column, bins=20, title="", x_label="", y_label="Count"):
@@ -138,7 +143,7 @@ def create_histogram(data, column, bins=20, title="", x_label="", y_label="Count
         ax.hist(data[column].dropna(), bins=bins, edgecolor="black")
         ax.set_title(title, fontsize=16)
         ax.set_xlabel(x_label, fontsize=12)
-        ax.tick_params(axis="x", labelsize=12)
+        ax.tick_params(axis="x", labelsize=12, rotation=45)
         ax.set_ylabel(y_label, fontsize=12)
         ax.tick_params(axis="y", labelsize=12)
         return fig, ax
@@ -151,57 +156,101 @@ def create_histogram(data, column, bins=20, title="", x_label="", y_label="Count
 
 def visualize_vehicle_distribution(df):
     st.subheader("Opportunity Distribution by Vehicle")
-    create_bar_chart(df["Vehicle"].value_counts(), "Vehicle", "Count", "Opportunity Distribution by Vehicle")
+    create_bar_chart(
+        df["Vehicle"].value_counts(), 
+        "Vehicle", 
+        "Count", 
+        "Opportunity Distribution by Vehicle")
 
 def visualize_set_aside_distribution(df):
     st.subheader("Opportunity Distribution by Set Aside")
-    create_bar_chart(df["Set Aside"].explode().value_counts(), "Set Aside", "Count", "Opportunity Distribution by Set Aside")
+    create_bar_chart(
+        df["Set Aside"].explode().value_counts(), 
+        "Set Aside", 
+        "Count", 
+        "Opportunity Distribution by Set Aside")
 
 def visualize_response_status(df):
     st.subheader("Opportunity Response Status")
-    create_count_plot(df, "Response Status", "Count", "Opportunity Response Status")
+    create_count_plot(
+        df, 
+        "Response Status", 
+        "Count", 
+        "Opportunity Response Status")
 
 # Visualization function for opportunities over time
 def visualize_opportunities_over_time(df):
     st.subheader("Opportunities Over Time")
-    fig, ax = create_linechart(df, "Release Date", "Number of Opportunities", "Opportunities Over Time")
+    fig, ax = create_linechart(
+        df, 
+        "Release Date", 
+        "Number of Opportunities", 
+        "Opportunities Over Time")
     st.pyplot(fig)
 
 # Visualization function for response status by Iberia Role
 def visualize_response_by_iberia_role(df):
     st.subheader("Response Status by Iberia Role")
-    fig, ax = create_stacked_bar_chart(df, "Iberia Role", "Response Status", "Response Status by Iberia Role", "Iberia Role", "Count")
-    st.pyplot(fig)
+    create_stacked_bar_chart(
+        df, 
+        x_column="Iberia Role", 
+        y_column="Response Status", 
+        title="Response Status by Iberia Role", 
+        x_label="Iberia Role", 
+        y_label="Count")
 
 # Visualization function for RFP types
 def visualize_rfp_types(df):
     st.subheader("RFP Type Distribution")
-    fig, ax = create_count_plot(df, "Type", "Opportunity RFP Types", "RFP Type", "Count")
-    st.pyplot(fig)
+    create_count_plot(
+        df, 
+        "Type", 
+        "Count", 
+        "RFP Type Distribution")
 
 # Visualization function for opportunity size distribution
 def visualize_opportunity_size(df):
     st.subheader("Opportunity Size Distribution")
-    fig, ax = create_histogram(df, "Solicitation Value", bins=20, title="Opportunity Size Distribution", x_label="Opportunity Size")
+    fig, ax = create_histogram(
+        df, 
+        "Solicitation Value", 
+        bins=20, 
+        title="Opportunity Size Distribution", 
+        x_label="Opportunity Size")
     st.pyplot(fig)
 
-# Visualization function for buying organization distribution
-def visualize_buying_organization(df):
-    st.subheader("Opportunity Distribution by Buying Organization")
-    fig, ax = create_count_plot(df["Buying Organization"].value_counts(), title="Opportunity Distribution by Buying Organization", x_label="Buying Organization", rotation=90)
-    st.pyplot(fig)
+# # Visualization function for buying organization distribution
+# def visualize_buying_organization(df):
+#     st.subheader("Opportunity Distribution by Buying Organization")
+#     fig, ax = create_count_plot(
+#         df["Buying Organization"].value_counts(), 
+#         title="Opportunity Distribution by Buying Organization", 
+#         x_label="Buying Organization", 
+#         y_label="Count", 
+#         rotation=90)
+#     st.pyplot(fig)
 
 # Visualization function for response status by buying organization
 def visualize_response_by_buying_organization(df):
     st.subheader("Response Status by Buying Organization")
-    fig, ax = create_stacked_bar_chart(df, x_column="Buying Organization", stacked_column="Response Status", title="Response Status by Buying Organization", x_label="Buying Organization", rotation=90)
+    fig, ax = create_stacked_bar_chart(
+        df, 
+        x_column="Buying Organization", 
+        y_column="Response Status",
+        title="Response Status by Buying Organization", 
+        x_label="Buying Organization", 
+        y_label="Count")
     st.pyplot(fig)
         
 def generate_visualizations(df):
     st.title("Opportunity Tracker")
+    
+    # Print the DataFrame for debugging purposes
+    st.write(df)
 
     # Create tabs
-    tabs = st.tabs(["Vehicle Distribution", "Set Aside Distribution", "Response Status", "Opportunities Over Time", "Response by Iberia Role", "RFP Types", "Opportunity Size", "Buying Organization", "Response by Buying Org"])
+    # tabs = st.tabs(["Vehicle Distribution", "Set Aside Distribution", "Response Status", "Opportunities Over Time", "Response by Iberia Role", "RFP Types", "Opportunity Size", "Buying Organization", "Response by Buying Org"])
+    tabs = st.tabs(["Vehicle Distribution", "Set Aside Distribution", "Response Status", "Opportunities Over Time", "Response by Iberia Role", "RFP Types", "Opportunity Size", "Response by Buying Org"])
 
     # First tab: Vehicle Distribution
     with tabs[0]:
@@ -230,14 +279,111 @@ def generate_visualizations(df):
     # Seventh tab: Opportunity Size
     with tabs[6]:
         visualize_opportunity_size(df)
-
-    # Eighth tab: Buying Organization
+        
+    # Eighth tab: Response by Buying Organization
     with tabs[7]:
-        visualize_buying_organization(df)
-
-    # Ninth tab: Response by Buying Organization
-    with tabs[8]:
         visualize_response_by_buying_organization(df)
+        
+    # # Ninth tab: Buying Organization
+    # with tabs[8]:
+    #     visualize_buying_organization(df)
+
+
+
+# def generate_visualizations(df):
+#     st.title("Opportunity Tracker")
+    
+#     # Print the DataFrame for debugging purposes
+#     st.write(df)
+
+#     # Custom CSS for tab headers
+#     custom_styles = """
+#     <style>
+#     .custom-tabs {
+#       display: flex;
+#       overflow-x: scroll;
+#     }
+
+#     .tab {
+#       padding: 10px 20px;
+#       background-color: white;
+#       border: 1px solid gray;
+#       margin-right: 10px;
+#       cursor: pointer;
+#     }
+
+#     .tab:hover {
+#       background-color: gray;
+#       color: white;
+#     }
+
+#     .tab:last-child {
+#       margin-right: 0;
+#     }
+#     </style>
+#     """
+
+#     # Render the custom CSS
+#     st.markdown(custom_styles, unsafe_allow_html=True)
+
+#     # Custom HTML for tab headers
+#     custom_tab_headers = """
+#     <div class="custom-tabs">
+#       <div class="tab">Vehicle Distribution</div>
+#       <div class="tab">Set Aside Distribution</div>
+#       <div class="tab">Response Status</div>
+#       <div class="tab">Opportunities Over Time</div>
+#       <div class="tab">Response by Iberia Role</div>
+#       <div class="tab">RFP Types</div>
+#       <div class="tab">Opportunity Size</div>
+#       <div class="tab">Buying Organization</div>
+#       <div class="tab">Response by Buying Org</div>
+#     </div>
+#     """
+
+#     # Render the custom tab headers
+#     st.markdown(custom_tab_headers, unsafe_allow_html=True)
+
+#     # Create tabs
+#     tabs = st.tabs([
+#         "Vehicle Distribution",
+#         "Set Aside Distribution",
+#         "Response Status",
+#         "Opportunities Over Time",
+#         "Response by Iberia Role",
+#         "RFP Types",
+#         "Opportunity Size",
+#         "Buying Organization",
+#         "Response by Buying Org"
+#     ])
+
+#     # Add your visualization functions here for each tab
+#     with tabs[0]:
+#         visualize_vehicle_distribution(df)
+
+#     with tabs[1]:
+#         visualize_set_aside_distribution(df)
+
+#     with tabs[2]:
+#         visualize_response_status(df)
+
+#     with tabs[3]:
+#         visualize_opportunities_over_time(df)
+
+#     with tabs[4]:
+#         visualize_response_by_iberia_role(df)
+
+#     with tabs[5]:
+#         visualize_rfp_types(df)
+
+#     with tabs[6]:
+#         visualize_opportunity_size(df)
+
+#     with tabs[7]:
+#         visualize_buying_organization(df)
+
+#     with tabs[8]:
+#         visualize_response_by_buying_organization(df)
     
 
 # Main code
@@ -249,8 +395,21 @@ if __name__ == "__main__":
         st.session_state.data = []
 
     # Display the navigation menu and selected tab's content
-    st.sidebar.header("Navigation")
-    selected_tab = st.sidebar.selectbox("Select a tab", ["Opportunity Tracker", "Add Data", "Saved Data"])
+    with st.sidebar:
+        st.sidebar.header("Navigation")
+        st.sidebar.markdown(
+            """
+            <style>
+            .sidebar .sidebar-content {
+                overflow-y: scroll;
+                max-height: 80vh; /* Set a maximum height for the sidebar */
+            }
+            </style>
+            """,
+            unsafe_allow_html=True,
+        )
+        selected_tab = st.sidebar.selectbox("Select a tab", ["Opportunity Tracker", "Add Data", "Saved Data"])
+
 
     if selected_tab == "Opportunity Tracker":
         # Display visualizations on this tab
