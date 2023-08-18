@@ -82,25 +82,6 @@ def visualize_data():
         st.subheader("Teaming Agreement Status Summary")
         teaming_status_counts = teaming_status_df['status'].value_counts()
         st.bar_chart(teaming_status_counts)
-    
-#     # Heatmap of NDA and Teaming Agreement Dates
-#     st.subheader("Heatmap of NDA and Teaming Agreement Dates")
-#     heatmap_data = pd.concat([nda_status_df[['dateissued', 'partialexecuteddate', 'fullyexecuteddate']],
-#                               teaming_status_df[['dateissued', 'partialexecuteddate', 'fullyexecuteddate']]])
-#     heatmap_data = heatmap_data.dropna()
-#     # Reshape the data for the pivot table
-#     heatmap_data = heatmap_data.melt(value_vars=['dateissued', 'partialexecuteddate', 'fullyexecuteddate'],
-#                                      value_name='AgreementDate')
-#     # Convert the AgreementDate column to datetime
-#     heatmap_data['AgreementDate'] = pd.to_datetime(heatmap_data['AgreementDate'])
-    
-#     heatmap_data['partialexecuteddate'] = pd.to_datetime(heatmap_data['partialexecuteddate'])
-#     heatmap_data['fullyexecuteddate'] = pd.to_datetime(heatmap_data['fullyexecuteddate'])
-#     heatmap = heatmap_data.pivot_table(index=heatmap_data.index.date, columns=heatmap_data.columns,
-#                                        aggfunc='size', fill_value=0)
-#     plt.figure(figsize=(10, 6))
-#     sns.heatmap(heatmap, cmap='YlGnBu', annot=True, fmt='d', cbar_kws={'label': 'Number of Agreements'})
-#     st.pyplot()
 
 # Close the database connection at the end
 if __name__ == "__main__":
