@@ -92,9 +92,11 @@ def create_histogram(data, x_label, y_label, title):
         ax.set_ylabel(y_label, fontsize=12)
         ax.tick_params(axis="y", labelsize=12)
         st.pyplot(fig)
+        return fig, ax
     except Exception as e:
         st.error(f"Error occurred while creating the histogram: {e}")
-
+        return None, None
+    
 # Define a function for creating a line chart
 def create_linechart(data, x_label, y_label, title):
     try:
@@ -169,6 +171,19 @@ def visualize_set_aside_distribution(df):
         "Set Aside", 
         "Count", 
         "Opportunity Distribution by Set Aside")
+    
+def visualize_set_aside_distribution_pie_chart(df):
+    st.subheader("Opportunity Distribution by Set Aside")
+    set_aside_counts = df["Set Aside"].explode().value_counts()
+
+    # Create a pie chart
+    fig, ax = plt.subplots(figsize=(8, 8))
+    ax.pie(set_aside_counts.values, labels=set_aside_counts.index, autopct="%1.1f%%", startangle=140)
+    ax.axis("equal")
+    ax.set_title("Opportunity Distribution by Set Aside", fontsize=16)
+    ax.tick_params(axis="x", labelsize=12)
+    ax.tick_params(axis="y", labelsize=12)
+    st.pyplot(fig)
 
 def visualize_response_status(df):
     st.subheader("Opportunity Response Status")
@@ -258,7 +273,13 @@ def generate_visualizations(df):
 
     # Second tab: Set Aside Distribution
     with tabs[1]:
-        visualize_set_aside_distribution(df)
+        # Create columns for layout
+        col1, col2 = st.columns(2)
+
+        with col1:
+            visualize_set_aside_distribution(df)
+        with col2:
+            visualize_set_aside_distribution_pie_chart(df)
 
     # Third tab: Response Status
     with tabs[2]:
