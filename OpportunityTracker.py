@@ -6,7 +6,7 @@
 import streamlit as st
 import pandas as pd
 import os
-import pyautogui
+# import pyautogui
 
 # Define the data structure as a list of dictionaries
 # Initialize the 'data' session state as an empty list
@@ -132,9 +132,9 @@ with st.form("Opportunity Form", clear_on_submit=True):
             st.error(f"An error occurred while adding the opportunity: {e}")
 
     
-# Add a custom "Refresh" button outside the form context
-if st.button("Refresh"):
-    pyautogui.press('r') 
+# # Add a custom "Refresh" button outside the form context
+# if st.button("Refresh"):
+#     pyautogui.press('r') 
     
     
 # Create two columns for saving the data
